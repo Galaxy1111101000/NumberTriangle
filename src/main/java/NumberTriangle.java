@@ -42,9 +42,20 @@ public class NumberTriangle {
         this.left = left;
     }
 
-
     public void setRight(NumberTriangle right) {
         this.right = right;
+    }
+
+    public void setRoot(NumberTriangle root) {this.root = root.getRoot();}
+
+    public void setRoot(int numb) {this.root = numb;}
+
+    public NumberTriangle getLeft(){
+        return this.left;
+    }
+
+    public NumberTriangle getRight(){
+        return this.right;
     }
 
     public int getRoot() {
@@ -88,8 +99,32 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO implement this method
-        return -1;
+        //What function will do: function will parse through tree using path string
+        // "l" means calling on this.left, "r" means this.right
+        // sum it up
+        int sum = this.getRoot();
+
+        for(int i = 0; i < path.length(); i++){
+            char path_char = path.charAt(i);
+
+            if(this.isLeaf()){
+                break;
+            }
+            else if(path_char == 'l'){
+                sum += this.getLeft().getRoot();
+                this.setRoot(this.getLeft());
+                this.setRight(this.getLeft().getRight());
+                this.setLeft(this.getLeft().getLeft());
+            }
+            else{
+                sum += this.getRight().getRoot();
+                this.setRoot(this.getRight());
+                this.setLeft(this.getRight().getLeft());
+                this.setRight(this.getRight().getRight());
+            }
+        }
+
+        return sum;
     }
 
     /** Read in the NumberTriangle structure from a file.
@@ -111,6 +146,8 @@ public class NumberTriangle {
 
 
         // TODO define any variables that you want to use to store things
+        int lineCount = 1;
+        NumberTriangle bigTriangle = null;
 
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
@@ -122,10 +159,9 @@ public class NumberTriangle {
             // remove when done; this line is included so running starter code prints the contents of the file
             System.out.println(line);
 
-            // TODO process the line
-
             //read the next line
             line = br.readLine();
+            lineCount += 1;
         }
         br.close();
         return top;
