@@ -155,6 +155,28 @@ public class NumberTriangle {
 
         String line = br.readLine();
         while (line != null) {
+            int[] numList = new int[lineCount];
+            int numListIndex = 0;
+            int num = 0;
+
+            for (int i = 0; i < line.length(); i++){
+                if(line.charAt(i) != ' '){
+                    num = num*10 + Character.getNumericValue(line.charAt(i));
+
+                    if(i == line.length() - 1){
+                        numList[numListIndex] = num;
+                    }
+                }
+                else if(line.charAt(i) == ' '){
+                    numList[numListIndex] = num;
+                    num = 0;
+
+                    if(i != line.length() - 1){
+                        numListIndex += 1;
+                    }
+                }
+
+            }
 
             // remove when done; this line is included so running starter code prints the contents of the file
             System.out.println(line);
